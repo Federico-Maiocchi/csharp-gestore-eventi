@@ -23,7 +23,7 @@ namespace csharp_gestore_eventi
         private DateTime _data;
         
         //●	capienza massima dell’evento
-        private int _caprienzaMassimaEvento;
+        private int _capienzaMassimaEvento;
         
         //●	numero di posti prenotati
         private int _numeroPostiPrenotati;
@@ -72,7 +72,7 @@ namespace csharp_gestore_eventi
         { 
             get
             {
-                return _caprienzaMassimaEvento;
+                return _capienzaMassimaEvento;
             }
         }
 
@@ -83,6 +83,7 @@ namespace csharp_gestore_eventi
             {
                 return _numeroPostiPrenotati;
             }
+
         }
 
         //ai setters inserire gli opportuni controlli in modo che la data non sia già passata,
@@ -97,7 +98,14 @@ namespace csharp_gestore_eventi
         {
             Titolo = titolo;
             Data = data;
-            NumeroPostiPrenotati = 0;
+
+            if (capienzaMassimaEvento <= 0)
+            {
+                throw new Exception("La campienza massima deve essere positivo");
+            }
+            _capienzaMassimaEvento = capienzaMassimaEvento;
+
+            _numeroPostiPrenotati = 0;
             
         }
 
@@ -126,18 +134,44 @@ namespace csharp_gestore_eventi
             {
                 throw new Exception("Non ci sono posti disponibili");
             }
+
+            //Aumento i posti prenotati
+            _numeroPostiPrenotati += postiDaPrenotare;
         }
 
         //2.	DisdiciPosti: riduce del i posti prenotati del numero di posti indicati come parametro.
-
-        public void DisdiciPosti()
-        {
-
-        }
         //    Se l’evento è già passato o non ci sono i posti da disdire sufficienti, deve sollevare un’eccezione.
+        public void DisdiciPosti(int postiDaDisdire)
+        {
+            //Controllo se l’evento è già passato
+            if (DateTime.Now > Data) 
+            {
+                throw new Exception("Non puoi disdire posti per un evento passato");
+            }
+
+            //Controllo che se il numero inserito è positivo, incaso sia 0 o negativo viene bloccato
+            if (postiDaDisdire <= 0)
+            {
+                throw new Exception("Il numero di posti da disdire deve essere maggiore di zero");
+            }
+
+            //Controllo che se i posti da disdire sono maggiore del dei posti prenotati, blocco il programma
+            if(postiDaDisdire > NumeroPostiPrenotati)
+            {
+                throw new Exception("I posti da disdire sono superiore rispetto ai posti prenotati");
+            }
+
+            //Diminuisco i posti prenotati
+            _numeroPostiPrenotati -= postiDaDisdire;
+        }
+
         //3.	l’override del metodo ToString() in modo che venga restituita una stringa contenente: data formattata – titolo
         //    Per formattare la data correttamente usate nomeVariabile.ToString("dd/MM/yyyy");
         //    applicata alla vostra variabile DateTime.
+        public override string ToString()
+        {
+            return $"{Data.ToString("dd/MM/yyyy")}  - {Titolo}";
+        }
 
     }
 }
