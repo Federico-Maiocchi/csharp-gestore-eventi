@@ -27,6 +27,11 @@ namespace csharp_gestore_eventi
             //Chiedete poi al vostro utente quanti eventi vuole aggiungere, e fategli inserire ad uno ad uno
             //tutti gli eventi necessari chiedendo man mano tutte le informazioni richieste all’utente.
 
+            //Attenzione: qui si gestite eventuali eccezioni lanciate dagli eventi creati, 
+            //in questo caso il programma informa l’utente dell’errore e non aggiunge l’evento al programma eventi
+            //(o meglio alla lista di Eventi del programmaEventi), ma comunque chiederà in continuazione all’utente
+            //di inserire eventi fintanto che non raggiunge il numero di eventi specificato inizialmente dall’utente.
+
             //Chiedere all'utente quanti eventi fanno parte del programma
             Console.Write("Indica il numero di eventi da inserire: ");
             int numeroEventi = int.Parse(Console.ReadLine());
@@ -52,21 +57,37 @@ namespace csharp_gestore_eventi
                 int capienzaMassimaEvento = int.Parse(Console.ReadLine());
                 Console.WriteLine("");
 
-                
+                Evento nuovoEvento = null;
+                try
+                {
+                    nuovoEvento = new Evento(titoloEvento, dataEvento, capienzaMassimaEvento);
 
+                    nuovoProgrammaEventi.AggiungiEvento(nuovoEvento);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Errore nella creazione di un nuovo evento: {ex.Message}");
+                }
+
+                
 
             }
 
-
-
-            //Attenzione: qui si gestite eventuali eccezioni lanciate dagli eventi creati, 
-            //in questo caso il programma informa l’utente dell’errore e non aggiunge l’evento al programma eventi
-            //(o meglio alla lista di Eventi del programmaEventi), ma comunque chiederà in continuazione all’utente
-            //di inserire eventi fintanto che non raggiunge il numero di eventi specificato inizialmente dall’utente.
-
             //Una volta compilati tutti gli eventi:
+
             //1.Stampate il numero di eventi presenti nel vostro programma eventi
+            Console.WriteLine($"NUmero eventi presenti in questo programma: {nuovoProgrammaEventi.NumeroEventi()}");
+
             //2.Stampate la lista di eventi inseriti nel vostro programma usando il metodo già fatto
+            Console.WriteLine($"Lista eventi che fanno parte di questo programma: ");
+            Console.WriteLine(ProgrammaEventi.StampaEventi(nuovoProgrammaEventi.eventi));
+
+
+
+
+
+
             //3.Chiedere all’utente una data e stampate tutti gli eventi in quella data. Usate il metodo che v
             //  i restituisce una lista di eventi in una data dichiarata e create un metodo statico
             //  che si occupa di stampare una lista di eventi che gli arriva.
