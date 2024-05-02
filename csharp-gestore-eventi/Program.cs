@@ -38,7 +38,6 @@ namespace csharp_gestore_eventi
             Console.WriteLine("");
 
             
-
             //Iterare quante volte deve chiedere all'utente 
             for (int i = 0; i < numeroEventi; i++)
             {
@@ -47,11 +46,11 @@ namespace csharp_gestore_eventi
 
                 Console.Write("Titolo evento: ");
                 string titoloEvento = Console.ReadLine();
-                //Console.WriteLine("");
+
 
                 Console.Write("Data evento (gg/mm/aaaa): ");
                 DateTime dataEvento = DateTime.Parse(Console.ReadLine());
-                //Console.WriteLine("");
+
 
                 Console.Write("Numero massimo posti: ");
                 int capienzaMassimaEvento = int.Parse(Console.ReadLine());
@@ -70,8 +69,6 @@ namespace csharp_gestore_eventi
                     Console.WriteLine($"Errore nella creazione di un nuovo evento: {ex.Message}");
                 }
 
-                
-
             }
 
             //Una volta compilati tutti gli eventi:
@@ -83,16 +80,20 @@ namespace csharp_gestore_eventi
             Console.WriteLine($"Lista eventi che fanno parte di questo programma: ");
             Console.WriteLine(ProgrammaEventi.StampaEventi(nuovoProgrammaEventi.eventi));
 
-
-
-
-
-
             //3.Chiedere all’utente una data e stampate tutti gli eventi in quella data. Usate il metodo che v
             //  i restituisce una lista di eventi in una data dichiarata e create un metodo statico
             //  che si occupa di stampare una lista di eventi che gli arriva.
             //  Passate dunque la lista di eventi in data al metodo statico, per poterla stampare.
+            Console.WriteLine("Inserisci una data (formato dd/MM/yyyy) per visualizzare gli eventi in quella data:  ");
+            DateTime dataUtente = DateTime.Parse(Console.ReadLine());
+
+            List<Evento> eventiInData = nuovoProgrammaEventi.TrovaEventiPerData(dataUtente);
+            Console.WriteLine("Eventi in data " + dataUtente.ToString("dd / MM / yyyy") + ":");
+            Console.WriteLine(ProgrammaEventi.StampaEventi(eventiInData));
+
             //4.Eliminate tutti gli eventi dal vostro programma.
+            nuovoProgrammaEventi.SvuotaEventi();
+            Console.WriteLine("Gli eventi sono stati cancellati");
 
 
 
