@@ -55,20 +55,61 @@ namespace csharp_gestore_eventi
             //Restituisco la lista di eventi nella data specificata
             return eventiInData;
         }
+
         //●	un metodo statico che si occupa, presa una lista di eventi, di stamparla in Console,
         //o ancora meglio vi restituisca la rappresentazione in stringa della vostra lista di eventi.
-        
+        public static string StampaEventi(List<Evento> listaEventi)
+        {
+            //Variabile per costrutire la lista di eventi in stringa
+            string listaEventiStringa = "";
+
+            //interazione della lista eventi
+            foreach (Evento evento in listaEventi)
+            {
+                //per ogni evento della lista verrà costruita una stringa che vengono concatenate
+                listaEventiStringa += $"{evento.Data.ToString("dd/MM/yyyy")} - {evento.Titolo}\n";
+            }
+
+            //ritorno l'intera lista in modo testuale
+            return listaEventiStringa;
+        }
+
+
         //●	un metodo che restituisce quanti eventi sono presenti nel programma eventi attualmente.
-        
+        public int NumeroEventi()
+        {
+            //Conto quanti eventi ho dentro la mia lista eventi
+            return eventi.Count;
+        }
+
         //●	un metodo che svuota la lista di eventi.
-        
+        public void SvuotaEventi()
+        {
+            //Metodo delle liste per svuotarle
+            eventi.Clear();
+        }
+
         //●	un metodo che restituisce una stringa che mostra il titolo del programma e tutti gli eventi
         //aggiunti alla lista.Come nell’esempio qui sotto:
         //Nome programma evento:
         //data1 - titolo1
         //data2 - titolo2
         //data3 - titolo3
-        
+
+        public override string ToString()
+        {
+            //Variabile che contiene il titolo dei programma eventi
+            string risultato = $"Nome programma evento: {Titolo}\n";
+
+            foreach (Evento evento in eventi)
+            {
+                //concateno gli eventi che appartengono ad un prgramma
+                risultato += $"{evento.Data.ToString("dd/MM/yyyy")} - {evento.Titolo}\n";
+            }
+
+            //titolo programma con la lista degli eventi che ne fanno parte
+            return risultato;
+        }
 
 
     }
